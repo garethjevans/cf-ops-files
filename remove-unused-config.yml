@@ -4,3 +4,4 @@
 - type: remove
   path: /variables/name=diego_database_password
 - type: remove
+  path: /variables/name=uaa_database_password
