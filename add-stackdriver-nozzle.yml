@@ -1,0 +1,49 @@
+---
+- type: replace
+  path: /releases/-
+  value:
+    name: stackdriver-tools
+    version: 0.0.145
+
+- type: replace
+  path: /instance_groups/-
+  value:
+    name: stackdriver-nozzle
+    azs:
+    - z1
+    - z2
+    instances: 1
+    vm_type: minimal
+    stemcell: default
+    networks:
+    - name: default
+    jobs:
+    - name: stackdriver-nozzle
+      release: stackdriver-tools
+    properties:
+      firehose:
+        endpoint: ((firehose_endpoint))
+        username: stackdriver-nozzle
+        password: ((firehose_password))
+        skip_ssl: true
+        events: ((firehose_events))
+      gcp:
+        project_id: ((gcp_project_id))
+      credentials:
+        application_default_credentials: ((gcp_credentials_json))
+
+- type: replace
+  path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/scim/users/-
+  value:
+    name: stackdriver-nozzle
+    password: ((firehose_password))
+    groups: 
+    - cloud_controller.admin_read_only
+    - doppler.firehose
+
+- type: replace
+  path: /variables/-
+  value:
+    name: firehose_password
+    type: password    
+
