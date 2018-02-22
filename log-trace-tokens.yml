@@ -1,0 +1,5 @@
+---
+- type: replace
+  path: /instance_groups/name=router/jobs/name=gorouter/properties/router/extra_headers_to_log?
+  value: 
+    [ X-Trace-Token ]
