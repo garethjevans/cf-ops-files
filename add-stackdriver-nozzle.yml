@@ -22,15 +22,15 @@
       release: stackdriver-tools
     properties:
       firehose:
-        endpoint: ((firehose_endpoint))
+        endpoint: "https://api.((system_domain))"
         username: stackdriver-nozzle
         password: ((firehose_password))
         skip_ssl: true
-        events: ((firehose_events))
+        events: LogMessage,Error,HttpStartStop,CounterEvent,ValueMetric,ContainerMetric
       gcp:
-        project_id: ((gcp_project_id))
+        project_id: ((stackdriver_project_id))
       credentials:
-        application_default_credentials: ((gcp_credentials_json))
+        application_default_credentials: ((stackdriver_credentials_json))
 
 - type: replace
   path: /instance_groups/name=uaa/jobs/name=uaa/properties/uaa/scim/users/-
